@@ -1,4 +1,4 @@
-import java.util.List;
+import java.util.*;
 
 public class KNearestNeighbours {
     private int k;
@@ -36,7 +36,48 @@ public class KNearestNeighbours {
             indices[j + 1] = current;
         }
         return indices;
+    }
+    private String findPredictedClass(String[] kNearestLabels){
+        HashMap<String, Integer> labelCounts = new HashMap<>();
+        for (String label : kNearestLabels){
+            if (labelCounts.containsKey(label)){
+                labelCounts.put(label, labelCounts.get(label) + 1);
+            }
+            else{
+                labelCounts.put(label, 1);
+            }
+        }
+        int maxCount = 0;
+        for (int value : labelCounts.values()){
+            if (value > maxCount){
+                maxCount = value;
+            }
+        }
+        List<String> bestLabels = new ArrayList<>();
+        for (HashMap.Entry<String, Integer> entry : labelCounts.entrySet()){
+            if (entry.getValue() == maxCount){
+                bestLabels.add(entry.getKey());
+            }
+        }
+        if (bestLabels.size() == 1 ){
+            return bestLabels.get(0);
+        }
+        else{
+            Random random = new Random();
+            return bestLabels.get(random.nextInt(bestLabels.size()));
+        }
 
-
+    }
+    public String predict(double[] observation){
+         double[] distances = new double[trainFeatures.size()];
+         for (int i = 0; i < trainFeatures.size(); i++){
+             distances[i] = calculateEuclideanDistance(observation, trainFeatures.get(i));
+         }
+         int [] sortedIndices = sortDistances(distances);
+         String [] kNearestLabels = new String [k];
+         for (int i = 0; i<k; i++){
+             kNearestLabels[i] = trainLabels.get(sortedIndices[i]);
+         }
+         return findPredictedClass(kNearestLabels);
     }
 }

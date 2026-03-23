@@ -13,7 +13,7 @@ public class DataLoader {
             String line;
             while ((line = reader.readLine()) != null){
                 if (!(line.isBlank())){
-                    rows.add(line.split(","));
+                    rows.add(line.trim().split(","));
                 }
             }
             return rows;

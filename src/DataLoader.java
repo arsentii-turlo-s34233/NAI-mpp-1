@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataLoader {
+    // Reads a CSV file and returns each line as a String array; skips blank lines
     public static List<String[]> load (String filePath) throws IOException {
         try {
             BufferedReader reader = new BufferedReader(
@@ -22,7 +23,7 @@ public class DataLoader {
         }
         return new ArrayList<>();
     }
-
+    // Extracts class labels (last column of each row)
     public static List<String> extractLabels(List<String[]> rows){
         List<String> labels = new ArrayList<>();
         for (String[] row : rows){
@@ -30,6 +31,7 @@ public class DataLoader {
         }
         return labels;
     }
+    // Extracts numeric feature values from each row; skips non-numeric tokens
     public static List<double[]> extractFeatures(List<String[]> rows){
         List<double[]> features = new ArrayList<>();
         for(String[] row : rows){

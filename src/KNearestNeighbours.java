@@ -12,7 +12,7 @@ public class KNearestNeighbours {
     }
     public double calculateEuclideanDistance (double[] x, double[] y){
         if (x.length != y.length){
-            throw new IllegalArgumentException("Length of two cetors should be the same");
+            throw new IllegalArgumentException("Length of two vectors should be the same");
         }
         double result = 0.0;
         for ( int i = 0; i < x.length; i++){
@@ -21,6 +21,7 @@ public class KNearestNeighbours {
         result = Math.sqrt(result);
         return result;
     }
+    //Returns indices of the distances array sorted in ascending order (insertion sort)
     public int[] sortDistances(double[] distances){
         int[] indices = new int[distances.length];
         for (int i = 0; i < distances.length; i++) {
@@ -37,6 +38,7 @@ public class KNearestNeighbours {
         }
         return indices;
     }
+    // Returns the majority label among k nearest neighbours; breaks ties randomly
     private String findPredictedClass(String[] kNearestLabels){
         HashMap<String, Integer> labelCounts = new HashMap<>();
         for (String label : kNearestLabels){
@@ -68,6 +70,7 @@ public class KNearestNeighbours {
         }
 
     }
+    // Predicts the class of a single observation using KNN voting
     public String predict(double[] observation){
          double[] distances = new double[trainFeatures.size()];
          for (int i = 0; i < trainFeatures.size(); i++){
